@@ -1,0 +1,11 @@
+:root{
+    --color-1: #C7493A;
+    --color-2: #A33327;
+    --color-3: #689775;
+    --color-3: #43ad61;
+    --color-4: #917164;
+    --color-5: #AD8174;
+}
+*{
+    cursor:default;
+}
