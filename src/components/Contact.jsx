@@ -3,17 +3,43 @@ import {
   Text,
   Flex,
   Textarea,
-  Input,
   Button,
-  FormControl,
-  FormLabel,
-  InputGroup,
-  InputLeftElement,
   Center,
+  useToast,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+    const form = useRef()
+    const toast = useToast()
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    e.target.reset();
+    toast({
+      title: 'Sending Email...',
+      description: "Your message is being sending...",
+      variant: 'subtle',
+      status: 'warning',
+      duration: 3000,
+      isClosable: false,
+    })
+    emailjs.sendForm('service_qd5z0sm', 'template_issrx1f', form.current, '0zDzKrX_j_Esh7sdc')
+      .then((result) => {
+        console.log(result.text);
+        toast({
+          title: 'Email sent!',
+          description: "Your message is sent to Mihir",
+          status: 'success',
+          duration: 3000,
+          isClosable: false,
+        })
+      }, (error) => {
+        console.log(error.text);
+      });
+  };
+
   return (
     <Box
       id="contact"
@@ -59,6 +85,7 @@ const Contact = () => {
               border={"1px solid transparent"}
               p={"0.6rem 1rem"}
               borderRadius={"0.4rem"}
+              onClick={()=>navigator.clipboard.writeText("+918340504980")}
             >
               <Text as={"p"} color={"#AD8174"}>
                 <i className="bx bxs-phone"></i> +91-8340504980
@@ -69,6 +96,7 @@ const Contact = () => {
               border={"1px solid transparent"}
               p={"0.6rem 1rem"}
               borderRadius={"0.4rem"}
+              onClick={()=>navigator.clipboard.writeText("ms6711534@gmail.com")}
             >
               <Text as={"p"} color={"#AD8174"}>
                 <i className="bx bxl-gmail"></i> ms6711534@gmail.com
@@ -79,6 +107,7 @@ const Contact = () => {
               border={"1px solid transparent"}
               p={"0.6rem 1rem"}
               borderRadius={"0.4rem"}
+              onClick={()=>window.open("https://www.google.com/maps/place/Chapra,+Bihar/@25.7805724,84.6636231,12z/data=!3m1!4b1!4m6!3m5!1s0x3992bb17fdf6ea1f:0xe3bbfac01f4ab27a!8m2!3d25.7811397!4d84.7543413!16zL20vMDVwbnM4?entry=ttu", "_blank")}
             >
               <Text as={"p"} color={"#AD8174"}>
                 <i className="bx bxs-map"></i> Chapra, India
@@ -91,6 +120,7 @@ const Contact = () => {
               borderRadius={"50%"}
               color={"#689775"}
               _hover={{ bg: "#689775", color: "rgb(0,0,6)" }}
+              onClick={()=>window.open("https://www.linkedin.com/in/mihir-13-soni", "_blank")}
             >
               <Text as={"p"} fontSize={"1.6rem"}>
                 <i className="bx bxl-linkedin"></i>
@@ -101,6 +131,7 @@ const Contact = () => {
               borderRadius={"50%"}
               color={"#689775"}
               _hover={{ bg: "#689775", color: "rgb(0,0,6)" }}
+              onClick={()=>window.open("https://github.com/MrMihirSoni", "_blank")}
             >
               <Text as={"p"} fontSize={"1.6rem"}>
                 <i className="bx bxl-github"></i>
@@ -111,6 +142,7 @@ const Contact = () => {
               borderRadius={"50%"}
               color={"#689775"}
               _hover={{ bg: "#689775", color: "rgb(0,0,6)" }}
+              onClick={()=>window.open("https://twitter.com/_mihir_soni","_blank")}
             >
               <Text as={"p"} fontSize={"1.6rem"}>
                 <i className="bx bxl-twitter"></i>
@@ -119,31 +151,27 @@ const Contact = () => {
           </Flex>
         </Flex>
         <Flex flexDir={"column"} gap={"1.5rem"}>
-          <FormControl id="contact">
-            <FormLabel fontSize={"1.4rem"} color={"#AD8174"}>Your Name</FormLabel>
-            <InputGroup borderColor={"#689775"} color={"#A33327"}>
-              <InputLeftElement pointerEvents="none">
-              <i className='bx bx-user' ></i>
-              </InputLeftElement>
-              <Input type="text" />
-            </InputGroup>
-          </FormControl>
-          <FormControl id="contact">
-            <FormLabel fontSize={"1.4rem"} color={"#AD8174"}>Mail</FormLabel>
-            <InputGroup borderColor={"#689775"} color={"#A33327"}>
-              <InputLeftElement pointerEvents="none">
-                <i className="bx bxl-gmail"></i>
-              </InputLeftElement>
-              <Input type="email" />
-            </InputGroup>
-          </FormControl>
-          <FormControl id="contact">
-            <FormLabel fontSize={"1.4rem"} color={"#AD8174"}>Message</FormLabel>
-            <Textarea placeholder="message" borderColor={"#689775"} color={"#A33327"}/>
-          </FormControl>
-          <FormControl id="contact">
-            <Button w={"100%"} bg={"#689775"}>Send Message</Button>
-          </FormControl>
+          <form className='form' ref={form} onSubmit={sendEmail}>
+            <div>
+              <label>Name :</label>
+              <div><i className='bx bx-user' ></i>
+              <input placeholder='Your Name' type="text" name="userName" required /></div>
+            </div>
+            <div>
+              <label>Email :</label>
+              <div><i className="bx bxl-gmail"></i>
+              <input placeholder='Your Email' type="email" name="userEmail" required /></div>
+            </div>
+            <div>
+              <label>Message :</label>
+              <div>
+              <textarea placeholder="Your Message" name="message" required /></div>
+            </div>
+            <input style={{
+              width: '100%',
+              cursor:'pointer'
+            }} className='submit' type="submit" value="Send" />
+          </form>
         </Flex>
       </Flex>
     </Box>

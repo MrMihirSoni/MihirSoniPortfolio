@@ -9,3 +9,44 @@
 *{
     cursor:default;
 }
+.form{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+.form>div{
+    display: flex;
+    flex-direction: column;
+}
+.form>div>label{
+    color: #43ad61;
+}
+.form>div>div{
+    border: 1px solid #689775;
+    border-radius: 0.4rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    color: #AD8174;
+}
+.form>div>div:hover{
+    border: 1px solid #43ad61;
+}
+.form input, form textarea{
+    border: none;
+    background: none;
+    width: 100%;
+}
+.form input:focus, form textarea:focus{
+    outline: none;
+}
+.form>.submit{
+    padding: 0.4rem;
+    border-radius: 0.4rem;
+    background-color: #689775;
+}
+.form>.submit:hover{
+    background-color: #43ad61;
+}
