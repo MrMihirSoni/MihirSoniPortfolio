@@ -17,7 +17,6 @@ const Contact = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    e.target.reset();
     toast({
       title: "Sending Email...",
       description: "Your message is being sending...",
@@ -38,6 +37,7 @@ const Contact = () => {
       .then(
         (result) => {
           console.log(result.text);
+          e.target.reset();
           toast({
             title: "Email sent!",
             description: "Your message is sent to Mihir",
