@@ -14,6 +14,7 @@
     flex-direction: column;
     height: 100%;
     justify-content: space-between;
+    gap: 0.4rem;
 }
 .form>div{
     display: flex;
