@@ -1,4 +1,5 @@
 import {
+  Link,
   Box,
   Flex,
   Text,
@@ -10,11 +11,8 @@ import {
   DrawerHeader,
   DrawerBody,
   useDisclosure,
-  scaleFadeConfig,
-  transition,
 } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
-import { Link } from "react-scroll";
+import React, { useRef } from "react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import Mihir_Soni_Resume from "../assets/Mihir-Soni-Resume.pdf";
 
@@ -75,11 +73,8 @@ const Navbar = () => {
               _hover={{ color: "#917164", bottom: "0.3rem" }}
             >
               <Link
-                to={ele.toLowerCase()}
-                spy={true}
-                smooth={true}
-                offset={20}
-                duration={500}
+                as="a"
+                href={`#${ele.toLowerCase()}`}
               >
                 {ele}
               </Link>
@@ -129,6 +124,8 @@ const Navbar = () => {
               <Flex flexDirection={"column"} gap={"1rem"}>
                 {navigationArray.map((ele) => (
                   <Box
+                    as="a"
+                    href={`#${ele.toLowerCase()}`}
                     color={"#A33327"}
                     p={"0.2rem 1rem"}
                     border={"1px solid transparent"}
@@ -136,16 +133,11 @@ const Navbar = () => {
                     fontSize={"1.4rem"}
                     onClick={onClose}
                   >
-                    <Link
-                      to={ele.toLowerCase()}
-                      spy={true}
-                      smooth={true}
-                      offset={20}
-                      duration={500}
-                      onClick={onClose}
+                    <Text
+                      as="p"
                     >
                       {ele}
-                    </Link>
+                    </Text>
                   </Box>
                 ))}
                 <Box
