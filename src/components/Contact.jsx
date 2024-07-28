@@ -7,13 +7,37 @@ import {
   Center,
   useToast,
 } from "@chakra-ui/react";
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { SpinnerIcon } from "@chakra-ui/icons";
 
 const Contact = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const contactRef = useRef(null)
   const form = useRef();
   const toast = useToast();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Update visibility state when element is at least 50% in the viewport
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.3, // Trigger when 30% of the element is visible
+      }
+    );
+
+    if (contactRef.current) {
+      observer.observe(contactRef.current);
+    }
+
+    return () => {
+      if (contactRef.current) {
+        observer.unobserve(contactRef.current);
+      }
+    };
+  }, []);
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -54,20 +78,23 @@ const Contact = () => {
 
   return (
     <Box
+      ref={contactRef}
       id="contact"
       w={"90%"}
       maxW={"1350px"}
       m={"auto"}
       mt={"3rem"}
-      pt={"3rem"}
+      pt={"2rem"}
       pb={"3rem"}
+      opacity={isVisible ? 1 : 0}
+      transition="opacity 0.5s ease-in-out"
     >
       <Box>
         <Text
           as={"h3"}
           w={"fit-content"}
           m={"auto"}
-          fontSize={"4rem"}
+          fontSize={{base: "2rem", sm: "2rem", smd: "3rem", md: "4rem"}}
           color={"#689775"}
           _hover={{ color: "#43ad61" }}
           textAlign={"center"}
@@ -121,15 +148,16 @@ const Contact = () => {
               border={"1px solid transparent"}
               p={"0.6rem 1rem"}
               borderRadius={"0.4rem"}
-              onClick={() =>
-                {navigator.clipboard.writeText("ms6711534@gmail.com")
+              onClick={() => {
+                navigator.clipboard.writeText("ms6711534@gmail.com")
                 toast({
                   title: "Copied!",
                   description: "Email is copied to clipboard.",
                   status: "success",
                   duration: 2000,
                   isClosable: false,
-                });}
+                });
+              }
               }
             >
               <Text as={"p"} color={"#AD8174"}>

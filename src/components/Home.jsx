@@ -1,11 +1,36 @@
 import { Box, Flex, Image, Text, Button, calc } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DP from "../assets/DP.png";
 import HandWaveEmoji from "../assets/HandWaveEmoji.gif";
 import { Cursor, Typewriter, useTypewriter } from "react-simple-typewriter";
 import Mihir_Soni_Resume from "../assets/Mihir-Soni-Resume.pdf"
 
 const Home = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const homeRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Update visibility state when element is at least 50% in the viewport
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.3, // Trigger when 30% of the element is visible
+      }
+    );
+
+    if (homeRef.current) {
+      observer.observe(homeRef.current);
+    }
+
+    return () => {
+      if (homeRef.current) {
+        observer.unobserve(homeRef.current);
+      }
+    };
+  }, []);
+
   const handleResumeClick = () => {
     window.open(
       "https://drive.google.com/file/d/1bV1Ic1J7XXfdNCD4Cx9C52xfMctyFWO1/view?usp=sharing",
@@ -15,11 +40,14 @@ const Home = () => {
   return (
     <>
       <Box
+        ref={homeRef}
         id="home"
         w={{ base: "90%", md: "100%" }}
         maxW={"1350px"}
         m={"auto"}
         pt={{ base: "6rem", md: "10rem" }}
+        opacity={isVisible ? 1 : 0}
+        transition="opacity 0.5s ease-in-out"
       >
         <Flex
           justifyContent={"space-between"}

@@ -33,6 +33,15 @@ const Navbar = () => {
       "_blank"
     );
   };
+
+  const handleNavigation = (sectionId) => {
+    const section = document.getElementById(sectionId.toLowerCase());
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+    onClose();
+  };
+
   return (
     <Box
       position={"fixed"}
@@ -68,14 +77,12 @@ const Navbar = () => {
         >
           {navigationArray.map((ele) => (
             <Box
+              key={ele} // Add a key prop
               color={"#A33327"}
               position={"relative"}
               _hover={{ color: "#917164", bottom: "0.3rem" }}
             >
-              <Link
-                as="a"
-                href={`#${ele.toLowerCase()}`}
-              >
+              <Link as="a" href={`#${ele.toLowerCase()}`}>
                 {ele}
               </Link>
             </Box>
@@ -124,20 +131,16 @@ const Navbar = () => {
               <Flex flexDirection={"column"} gap={"1rem"}>
                 {navigationArray.map((ele) => (
                   <Box
+                    key={ele} // Add a key prop
                     as="a"
-                    href={`#${ele.toLowerCase()}`}
                     color={"#A33327"}
                     p={"0.2rem 1rem"}
                     border={"1px solid transparent"}
                     _hover={{ color: "#917164", border: "1px solid #689775" }}
                     fontSize={"1.4rem"}
-                    onClick={onClose}
+                    onClick={() => handleNavigation(ele)}
                   >
-                    <Text
-                      as="p"
-                    >
-                      {ele}
-                    </Text>
+                    <Text as="p">{ele}</Text>
                   </Box>
                 ))}
                 <Box
@@ -151,6 +154,7 @@ const Navbar = () => {
                     color={"#A33327"}
                     _hover={{ color: "#917164" }}
                     onClick={handleResumeClick}
+                    fontWeight={"bold"}
                   >
                     <a
                       href={Mihir_Soni_Resume}

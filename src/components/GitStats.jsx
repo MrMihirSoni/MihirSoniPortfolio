@@ -1,8 +1,33 @@
 import { Box, Text, Image, Flex } from "@chakra-ui/react";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import GitHubCalendar from "react-github-calendar";
 
 const GitStats = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const gitRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Update visibility state when element is at least 50% in the viewport
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.3, // Trigger when 50% of the element is visible
+      }
+    );
+
+    if (gitRef.current) {
+      observer.observe(gitRef.current);
+    }
+
+    return () => {
+      if (gitRef.current) {
+        observer.unobserve(gitRef.current);
+      }
+    };
+  }, []);
+
   const gitURLs = [
     "https://github-readme-stats.vercel.app/api/top-langs?username=mrmihirsoni&theme=transparent&hide_border=true&show_icons=true&locale=en",
     "https://github-readme-stats.vercel.app/api?username=mrmihirsoni&theme=transparent&hide_border=true&show_icons=true&locale=en",
@@ -10,18 +35,21 @@ const GitStats = () => {
   ];
   return (
     <Box
+      ref={gitRef}
       id="git-stats"
       w={"90%"}
       maxW={"1350px"}
       m={"auto"}
       mt={"1rem"}
-      pt={"5rem"}
+      pt={"2rem"}
       pb={"3rem"}
+      opacity={isVisible ? 1 : 0}
+      transition="opacity 0.5s ease-in-out"
     >
       <Box>
         <Text
           as={"h3"}
-          fontSize={"4rem"}
+          fontSize={{base: "2rem", sm: "2rem", smd: "3rem", md: "4rem"}}
           color={"#689775"}
           _hover={{ color: "#43ad61" }}
           textAlign={"center"}
@@ -44,7 +72,7 @@ const GitStats = () => {
             >
               <GitHubCalendar
                 username="MrMihirSoni"
-                style={{ color: "#AD8174"}}
+                style={{ color: "#AD8174" }}
               />
             </Box>
           </Flex>

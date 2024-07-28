@@ -1,5 +1,5 @@
 import { Box, Flex, Grid, Text, Image } from "@chakra-ui/react";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import js from "../assets/JavaScript-logo.png";
 import python from "../assets/python-logo.png";
 import react from "../assets/React-logo.png";
@@ -17,21 +17,49 @@ import postman from "../assets/postman-logo.png";
 import java from "../assets/java-logo.png";
 
 const Skills = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const skillRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Update visibility state when element is at least 50% in the viewport
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.3, // Trigger when 50% of the element is visible
+      }
+    );
+
+    if (skillRef.current) {
+      observer.observe(skillRef.current);
+    }
+
+    return () => {
+      if (skillRef.current) {
+        observer.unobserve(skillRef.current);
+      }
+    };
+  }, []);
+
   return (
     <Box
+      ref={skillRef}
       id="skills"
       w={"90%"}
       maxW={"1350px"}
       m={"auto"}
-      pt={"6rem"}
+      pt={"2rem"}
       pb={"3rem"}
+      opacity={isVisible ? 1 : 0}
+      transition="opacity 0.5s ease-in-out"
     >
       <Box>
         <Text
           as={"h3"}
           w={"fit-content"}
           m={"auto"}
-          fontSize={"4rem"}
+          fontSize={{base: "2rem", sm: "2rem", smd: "3rem", md: "4rem"}}
           color={"#689775"}
           _hover={{ color: "#43ad61" }}
           textAlign={"center"}
